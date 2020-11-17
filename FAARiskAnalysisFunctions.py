@@ -9,18 +9,17 @@ from geopy.distance import geodesic #Used for distance measurements of obstacles
 import tkinter as tk #will be used for generating GUI
 
 
-airportData = {}
+helipadData = {}
 obstacleData = {} 
 sortedObstacleData = {}
 
 obstacleData = pd.read_csv('DOF.CSV',encoding='ISO-8859-1')
 LZData = pd.read_csv('LZControl-Data_20201005.csv',encoding='ISO-8859-1')
-
+print("Data Imported")
 
 
 #Testing with just NJ
-airportData = LZData[LZData.lz_state == 'NJ']
-sortedObstacleData = obstacleData[obstacleData.STATE == "NJ"]
+
 #####################
 
 
@@ -31,27 +30,64 @@ def ObstaclesInArea(coordinates,obstacleList, dist):
     obstacleNearLocation = pd.DataFrame() #Create empty dataframe
     
     for i,row in obstacleList.iterrows(): #Iterate through our obstacle list to compare distance from coordinates
-
-        currentCoords = (row['LATDEC'], row['LONDEC'])
-        distance = geodesic(coordinates, currentCoords).nm #Calculate distance from objects
-     
+       
+        try: 
+            currentCoords = (row['LATDEC'], row['LONDEC'])
+            distance = geodesic(coordinates, currentCoords).nm #Calculate distance from objects
+       
+        except:
+            print("Exception: Geodesic Error")
+            distance = 999
+            
         if distance <= dist:   
          
             df = pd.DataFrame(row).T
             df["Distance"] = distance #Add distance of obstacle to coordinates
-        
             obstacleNearLocation = obstacleNearLocation.append(df) #Add to main dataframe
-    
+            print("distance: " + str(distance))
     obstacleNearLocation = obstacleNearLocation.reset_index(drop = True) #Removes the original index from the FAA Dataset
     
     return obstacleNearLocation
 
-#Test the function
-Obstacles = ObstaclesInArea((39.7, -75.033),sortedObstacleData,1)
+def AquireHelipadObstacleDict(state,helipad,dist):
+    """
+    Input is a string with state identifier(ex, NJ),distance from helipad in nm,
+    and helipad as a string. Output is a dict containing helipads
+    as the keys, and DataFrames containing the obstacles within that area
+    """
+    
+    helipadData = LZData[LZData.lz_state == helipad]
+    sortedObstacleData = obstacleData[obstacleData.STATE == str(state)]
+    
+    obstaclesHelipadList = {}
+    
+    for i,v in helipadData.iterrows():
+        
+        currentCoordinates = (v.lat_dec,v.lon_dec)
+        currentObstacles = ObstaclesInArea(currentCoordinates, sortedObstacleData,1)
+        
+        obstaclesHelipadList[v.lz_name] = currentObstacles
+        
+    return obstaclesHelipadList
 
 
-#Next step is to iterate through LZData and compile obstacles for each set of coordinates 
+def HelipadList(state):
+    helipadList = LZData[LZData.lz_state == str(state)]
+    helipadList = helipadList[['lz_name']]
+    helipadList = helipadList.reset_index(drop = True)
+    return helipadList
+    
+        
 
+
+    
+
+
+
+
+
+
+print("Code Done")
 #Testing GUI Stuff
 """
 window = tk.Tk()
