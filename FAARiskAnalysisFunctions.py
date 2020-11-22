@@ -18,9 +18,6 @@ LZData = pd.read_csv('LZControl-Data_20201005.csv',encoding='ISO-8859-1')
 print("Data Imported")
 
 
-#Testing with just NJ
-
-#####################
 
 
 def ObstaclesInArea(coordinates,obstacleList, dist):
@@ -82,16 +79,3 @@ def HelipadList(state):
 
     
 
-
-
-
-
-
-print("Code Done")
-#Testing GUI Stuff
-"""
-window = tk.Tk()
-greeting = tk.Label(text="Hello, Tkinter")
-greeting.pack()
-tk.mainloop()
-"""
