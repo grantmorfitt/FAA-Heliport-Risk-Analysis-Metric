@@ -14,42 +14,6 @@
    <string>Heliport Risk Analysis </string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTreeWidget" name="List1">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>120</y>
-      <width>311</width>
-      <height>161</height>
-     </rect>
-    </property>
-    <property name="acceptDrops">
-     <bool>true</bool>
-    </property>
-    <property name="autoFillBackground">
-     <bool>true</bool>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Sunken</enum>
-    </property>
-    <property name="lineWidth">
-     <number>1</number>
-    </property>
-    <property name="verticalScrollBarPolicy">
-     <enum>Qt::ScrollBarAsNeeded</enum>
-    </property>
-    <property name="dragEnabled">
-     <bool>false</bool>
-    </property>
-    <column>
-     <property name="text">
-      <string>Heliports</string>
-     </property>
-    </column>
-   </widget>
    <widget class="QPushButton" name="Enter">
     <property name="geometry">
      <rect>
@@ -147,41 +111,11 @@
      <string>Obstacles within 1nm of the selected helipad location:</string>
     </property>
    </widget>
-   <widget class="QTreeWidget" name="ObstacleList">
-    <property name="geometry">
-     <rect>
-      <x>380</x>
-      <y>40</y>
-      <width>311</width>
-      <height>161</height>
-     </rect>
-    </property>
-    <property name="acceptDrops">
-     <bool>true</bool>
-    </property>
-    <property name="autoFillBackground">
-     <bool>true</bool>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="verticalScrollBarPolicy">
-     <enum>Qt::ScrollBarAsNeeded</enum>
-    </property>
-    <property name="animated">
-     <bool>false</bool>
-    </property>
-    <column>
-     <property name="text">
-      <string>Obstacles</string>
-     </property>
-    </column>
-   </widget>
    <widget class="QLabel" name="InformationLabel_4">
     <property name="geometry">
      <rect>
       <x>370</x>
-      <y>230</y>
+      <y>240</y>
       <width>241</width>
       <height>16</height>
      </rect>
@@ -213,7 +147,7 @@
     <property name="geometry">
      <rect>
       <x>370</x>
-      <y>260</y>
+      <y>270</y>
       <width>121</width>
       <height>16</height>
      </rect>
@@ -223,6 +157,26 @@
     </property>
     <property name="text">
      <string>N/A</string>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="List1">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>120</y>
+      <width>256</width>
+      <height>231</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="ObstacleList">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>40</y>
+      <width>256</width>
+      <height>192</height>
+     </rect>
     </property>
    </widget>
   </widget>

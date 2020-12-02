@@ -53,7 +53,9 @@ def AquireHelipadObstacleDict(state,helipad,dist):
     as the keys, and DataFrames containing the obstacles within that area
     """
     
-    helipadData = LZData[LZData.lz_state == helipad]
+    helipadData = LZData[LZData.lz_state == str(state)]
+    helipadData = LZData[LZData.lz_name == str(helipad)]
+    
     sortedObstacleData = obstacleData[obstacleData.STATE == str(state)]
     
     obstaclesHelipadList = {}
@@ -72,7 +74,12 @@ def HelipadList(state):
     helipadList = LZData[LZData.lz_state == str(state)]
     helipadList = helipadList[['lz_name']]
     helipadList = helipadList.reset_index(drop = True)
-    return helipadList
+    
+    if not helipadList.empty:
+        return helipadList
+    else: 
+        emptyDataFrame = pd.DataFrame(["No Data Found"], columns = ['lz_name'])
+        return emptyDataFrame
     
         
 
