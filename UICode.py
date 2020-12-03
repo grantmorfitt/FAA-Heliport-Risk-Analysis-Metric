@@ -1,12 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Dec  2 14:33:01 2020
-
-@author: Grant
-
-Main purpose of this script is to prevevent edits to UI from ruining gui functions.
-Attach functions to UI interface
-
+#@author: Grant Morfitt
+# Description: Create and implement UI Functions
+# Output : Creates GUI and connects functions
 """
 
 from Main import Ui_HeliportRiskAnalysis
@@ -40,6 +36,32 @@ def ObstacleSelected():
     
     
     helipadObstacleDict = AquireHelipadObstacleDict(stateSelected, selectedHeliport,1)
+    helipadObstacleDict = helipadObstacleDict[str(selectedHeliport)] 
+    
+    obstacleList.setRowCount(0); #Clear old Data from list
+    
+    for i,v in helipadObstacleDict.iterrows(): #Loop through helipadobstacledictionary
+        currentLat = str(v["LATDEC"])
+        currentLon = str(v["LONDEC"])
+        distance = str(v["Distance"])
+        obstacle = str(v["TYPE"])
+        
+        currentRowCount = int(obstacleList.rowCount()) #Necessary for QTTableWidget
+        obstacleList.setRowCount(int(currentRowCount) +1) #Add a new row for the new obstacle
+        
+        ##Formatting and Addition to Obstacle Table##
+        obstacleItem = QtWidgets.QTableWidgetItem(obstacle) #Create item to add to table
+        obstacleList.setItem(currentRowCount,0,obstacleItem) #add to table
+        
+        latItem = QtWidgets.QTableWidgetItem(currentLat)
+        obstacleList.setItem(currentRowCount,1,latItem)
+        
+        lonItem = QtWidgets.QTableWidgetItem(currentLon)
+        obstacleList.setItem(currentRowCount,2,lonItem)
+        
+        distanceItem = QtWidgets.QTableWidgetItem(distance)
+        obstacleList.setItem(currentRowCount,3,distanceItem)
+        
     
     
     
