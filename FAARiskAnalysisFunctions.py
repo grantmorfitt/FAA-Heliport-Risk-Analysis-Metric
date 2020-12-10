@@ -70,7 +70,11 @@ def AquireHelipadObstacleDict(state,helipad,dist):
     return obstaclesHelipadList
 
 
-def HelipadList(state):
+def HelipadList(state:str):
+    """
+    Input is a state identifer ex, "NJ", output is a DataFrame of helipads for that state
+    """
+    
     helipadList = LZData[LZData.lz_state == str(state)]
     helipadList = helipadList[['lz_name']]
     helipadList = helipadList.reset_index(drop = True)
@@ -81,7 +85,23 @@ def HelipadList(state):
         emptyDataFrame = pd.DataFrame(["No Data Found"], columns = ['lz_name'])
         return emptyDataFrame
     
+def HelipadInformation(helipadName:str):
+    """
+    Input is helipad name, output is a dataframe of preset variables. 
+    Currently returns Longitude, Latitude, and Navid
+    """
+    try:
+        tempdf = LZData.loc[LZData['lz_name'] == str(helipadName)]
+    except:
+        return "NAN"
+    
+    longitude = tempdf["lon_dec"].iloc[0]
+    latitude = tempdf["lat_dec"].iloc[0]
+    navid = tempdf["nav_id"].iloc[0]
         
+    returndf = pd.DataFrame([[longitude,latitude,navid]], columns = ['Longitude', 'Latitude', 'Navid'])
+    
+    return returndf
 
 
     
