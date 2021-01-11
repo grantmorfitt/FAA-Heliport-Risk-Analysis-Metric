@@ -39,9 +39,9 @@ def ObstaclesInArea(coordinates,obstacleList, dist):
         if distance <= dist:   
          
             df = pd.DataFrame(row).T
-            df["Distance"] = distance #Add distance of obstacle to coordinates
+            df["Distance"] = round(distance,3)  #Add distance of obstacle to coordinates
             obstacleNearLocation = obstacleNearLocation.append(df) #Add to main dataframe
-            print("distance: " + str(distance))
+            #print("distance: " + str(distance))
     obstacleNearLocation = obstacleNearLocation.reset_index(drop = True) #Removes the original index from the FAA Dataset
     
     return obstacleNearLocation
@@ -88,9 +88,9 @@ def HelipadList(state:str):
 def HelipadInformation(helipadName:str):
     """
     Input is helipad name, output is a dataframe of preset variables. 
-    Currently returns Longitude, Latitude, and Navid
+    Currently returns Longitude, Latitude, and Navid. Used for the obstacle information GUI
     """
-    try:
+    try:        #Ensure the name exists, a lot of LZ Data doesn't have a name for the helipads
         tempdf = LZData.loc[LZData['lz_name'] == str(helipadName)]
     except:
         return "NAN"
@@ -103,6 +103,83 @@ def HelipadInformation(helipadName:str):
     
     return returndf
 
+def CalculateSingleObstacleRisk(obstacleHeight,distanceFromPad):
+    """
+    Input is the Obstacle Height and the Distance from the pad in nm
+    Output is the risk factor 1-3
+    1 being Low, 2 being Medium, 3 being High
+    My thought process is that there will be no zero risk as all obstacles are within a radius of the helipad
 
+    Parameters
+    ----------
+    obstacleHeight : Obstacle hieght in feet AGL
+    distanceFromPad : Distance in nm
+    Returns
+    -------
+    Risk int 1-3
+
+    """
+    obstacleRisk = 1 #Default is low
     
+    if distanceFromPad <= 0.25 and distanceFromPad > 0: #smallest ring. 0.25nm <0nm
+        
+        if obstacleHeight >= 100: obstacleRisk = 3
+            
+        if obstacleHeight <= 100: obstacleRisk = 2
+        
+    elif distanceFromPad > 0.25 and distanceFromPad <= 0.5:
+        
+        if obstacleHeight >=200: obstacleRisk = 3
+        
+        if obstacleHeight >=100 and obstacleHeight < 200: obstacleRisk = 2
+        
+        if obstacleHeight < 100: pass 
+    
+    elif distanceFromPad > 0.5:
+        
+        if obstacleHeight >= 200: obstacleRisk = 2
+        
+        if obstacleHeight < 200: pass
+        
+    
+    return obstacleRisk
+
+
+def ReturnObstacleColor(Risk):
+    """
+    Parameters
+    ----------
+    Risk : risk integer 1-3
+
+    Returns
+    -------
+    Hex Value for that risk value
+
+    """
+    
+    hexValue = '#000000'
+    
+    if Risk == 1: hexValue = '#FFFE00'
+    if Risk == 2: hexValue = '#FF9200'
+    if Risk == 3: hexValue = '#FF0000'
+    
+    return hexValue
+
+def ObstacleIcon(obstacleType):
+    """
+    Workaround switch statement because python doesn't support it for whatever reason
+    Input is the obstacle type
+    Output is the link to the Obstacle image. Default is in the return statement
+    """
+    switch = {
+       "UTILITY POLE": 'https://cdn3.iconfinder.com/data/icons/energy-and-power-glyph-24-px/24/Electricity_pole_electricity_pylon_power_mast_transmission_pole_utility_pylon-256.png',
+        "BRIDGE": 'https://cdn3.iconfinder.com/data/icons/landmark-outline/447/golden_gate_usa_bridge_architecture_landmark_america_tourism-256.png',
+        "TANK": 'https://cdn3.iconfinder.com/data/icons/construction-294/32/Construction_barrel_oil_petroleum_tank-256.png',
+        "TOWER": 'https://cdn0.iconfinder.com/data/icons/shape-1/20/triangle-256.png',
+        "BLDG": 'https://cdn2.iconfinder.com/data/icons/architecture-interior/24/architecture-interior-03-512.png',
+        "HELIPAD": 'https://cdn1.iconfinder.com/data/icons/aviation-12/64/Aviation_1-05-256.png'
+        
+        }
+
+    return switch.get(obstacleType, 'https://cdn0.iconfinder.com/data/icons/map-location-solid-style/91/Map_-_Location_Solid_Style_05-256.png')
 

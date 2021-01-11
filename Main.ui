@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>817</width>
-    <height>459</height>
+    <width>961</width>
+    <height>875</height>
    </rect>
   </property>
   <property name="contextMenuPolicy">
@@ -42,7 +42,7 @@
       <x>290</x>
       <y>10</y>
       <width>41</width>
-      <height>341</height>
+      <height>701</height>
      </rect>
     </property>
     <property name="orientation">
@@ -81,7 +81,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Please Enter a State Abbreviation. Example: &quot;NJ&quot;</string>
+     <string>Enter State Abbreviation:</string>
     </property>
    </widget>
    <widget class="QLabel" name="InformationLabel_2">
@@ -94,7 +94,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Please Select a Heliport Below:</string>
+     <string>Select a Heliport Below:</string>
     </property>
    </widget>
    <widget class="QLabel" name="InformationLabel_3">
@@ -102,7 +102,7 @@
      <rect>
       <x>360</x>
       <y>140</y>
-      <width>281</width>
+      <width>371</width>
       <height>16</height>
      </rect>
     </property>
@@ -126,8 +126,8 @@
    <widget class="QLabel" name="FAALogo">
     <property name="geometry">
      <rect>
-      <x>730</x>
-      <y>0</y>
+      <x>880</x>
+      <y>10</y>
       <width>61</width>
       <height>31</height>
      </rect>
@@ -145,7 +145,7 @@
    <widget class="QLabel" name="RiskLabel">
     <property name="geometry">
      <rect>
-      <x>560</x>
+      <x>590</x>
       <y>90</y>
       <width>121</width>
       <height>16</height>
@@ -164,19 +164,28 @@
       <x>30</x>
       <y>120</y>
       <width>256</width>
-      <height>231</height>
+      <height>371</height>
      </rect>
     </property>
    </widget>
    <widget class="QTableWidget" name="ObstacleList">
     <property name="geometry">
      <rect>
-      <x>360</x>
-      <y>160</y>
-      <width>431</width>
-      <height>191</height>
+      <x>400</x>
+      <y>530</y>
+      <width>461</width>
+      <height>181</height>
      </rect>
     </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="sizeAdjustPolicy">
+     <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
+    </property>
+    <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+     <bool>false</bool>
+    </attribute>
     <column>
      <property name="text">
       <string>Obstacle</string>
@@ -184,17 +193,12 @@
     </column>
     <column>
      <property name="text">
-      <string>Lat</string>
+      <string>Distance(nm)</string>
      </property>
     </column>
     <column>
      <property name="text">
-      <string>Lon</string>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Distance</string>
+      <string>Height(AGL)</string>
      </property>
     </column>
    </widget>
@@ -203,7 +207,7 @@
      <rect>
       <x>360</x>
       <y>50</y>
-      <width>71</width>
+      <width>101</width>
       <height>16</height>
      </rect>
     </property>
@@ -216,7 +220,7 @@
      <rect>
       <x>360</x>
       <y>70</y>
-      <width>101</width>
+      <width>111</width>
       <height>16</height>
      </rect>
     </property>
@@ -229,7 +233,7 @@
      <rect>
       <x>360</x>
       <y>30</y>
-      <width>71</width>
+      <width>101</width>
       <height>16</height>
      </rect>
     </property>
@@ -240,7 +244,7 @@
    <widget class="QLabel" name="LatLongLabel">
     <property name="geometry">
      <rect>
-      <x>460</x>
+      <x>480</x>
       <y>70</y>
       <width>171</width>
       <height>16</height>
@@ -256,7 +260,7 @@
    <widget class="QLabel" name="NavIDLabel">
     <property name="geometry">
      <rect>
-      <x>440</x>
+      <x>480</x>
       <y>50</y>
       <width>171</width>
       <height>16</height>
@@ -272,7 +276,7 @@
    <widget class="QLabel" name="HeliportnameLabel">
     <property name="geometry">
      <rect>
-      <x>440</x>
+      <x>480</x>
       <y>30</y>
       <width>171</width>
       <height>16</height>
@@ -288,9 +292,9 @@
    <widget class="QProgressBar" name="progressBar">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>380</y>
-      <width>551</width>
+      <x>60</x>
+      <y>750</y>
+      <width>801</width>
       <height>23</height>
      </rect>
     </property>
@@ -301,6 +305,21 @@
      <number>0</number>
     </property>
    </widget>
+   <widget class="QWebEngineView" name="webEngineView">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>160</y>
+      <width>601</width>
+      <height>331</height>
+     </rect>
+    </property>
+    <property name="url">
+     <url>
+      <string>about:blank</string>
+     </url>
+    </property>
+   </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menubar">
@@ -308,12 +327,19 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>817</width>
-     <height>21</height>
+     <width>961</width>
+     <height>26</height>
     </rect>
    </property>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QWebEngineView</class>
+   <extends>QWidget</extends>
+   <header location="global">QtWebEngineWidgets/QWebEngineView</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
