@@ -67,6 +67,7 @@ def AquireHelipadObstacleDict(state,helipad,dist):
         
         obstaclesHelipadList[v.lz_name] = currentObstacles
         
+        
     return obstaclesHelipadList
 
 
@@ -107,40 +108,37 @@ def CalculateSingleObstacleRisk(obstacleHeight,distanceFromPad):
     """
     Input is the Obstacle Height and the Distance from the pad in nm
     Output is the risk factor 1-3
-    1 being Low, 2 being Medium, 3 being High
-    My thought process is that there will be no zero risk as all obstacles are within a radius of the helipad
-
+    1 being Low(Green), 2 being Orange, 3 being Yellow, 4 being Red
+    
     Parameters
     ----------
     obstacleHeight : Obstacle hieght in feet AGL
     distanceFromPad : Distance in nm
     Returns
     -------
-    Risk int 1-3
+    Risk int 1-4
 
     """
-    obstacleRisk = 1 #Default is low
+    obstacleRisk = 0 #Default is low
     
-    if distanceFromPad <= 0.25 and distanceFromPad > 0: #smallest ring. 0.25nm <0nm
+    distanceFromPad = distanceFromPad * 6076.12 #This has to be converted, as all of the lines are in terms of feet
+    
+    if (obstacleHeight < (distanceFromPad - 145)/25): #If less than green
+        obstacleRisk = 1
+    elif (obstacleHeight > (distanceFromPad - 145)/25): #All other will be greater than green..or should be
         
-        if obstacleHeight >= 100: obstacleRisk = 3
+        if (obstacleHeight <= (distanceFromPad - 945)/8 ):
+            obstacleRisk = 2
             
-        if obstacleHeight <= 100: obstacleRisk = 2
+        elif (obstacleHeight <= ( 100 * (distanceFromPad - 145)/771 ) and (obstacleHeight > (distanceFromPad - 945)/8 )):
+            obstacleRisk = 3
         
-    elif distanceFromPad > 0.25 and distanceFromPad <= 0.5:
+        elif (obstacleHeight >= ( 100 * (distanceFromPad - 145)/771 )):
+             obstacleRisk = 4
+            
         
-        if obstacleHeight >=200: obstacleRisk = 3
         
-        if obstacleHeight >=100 and obstacleHeight < 200: obstacleRisk = 2
-        
-        if obstacleHeight < 100: pass 
     
-    elif distanceFromPad > 0.5:
-        
-        if obstacleHeight >= 200: obstacleRisk = 2
-        
-        if obstacleHeight < 200: pass
-        
     
     return obstacleRisk
 
